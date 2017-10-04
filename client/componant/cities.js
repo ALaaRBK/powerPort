@@ -5,26 +5,22 @@ angular.module('app')
 		cities : '<'
 	},
 	controller : ($scope, $location)=> {
+
 		$scope.changeView = function(view){
 			currentCity = this.city ;
-			var cityInfo = {
-				name : currentCity.name ,
-				long : currentCity.longitude ,
-				lat : currentCity.latitude 
-			}
+			var name = this.city.name
 			$.ajax({ 
 				type : 'POST',
 				url : "http://127.0.0.1:3000/cities" ,
-				data :  cityInfo,
+				data :  {name: name},
 				success : function(data) {
-					currentCity.images = data.images
-					currentCity.description = data.description
+					currentCity = data
 					$location.path(view);
 					appendMap(); 
-
 				}
 			})
 		}
+
 	},
 	templateUrl :`../templates/cities.html`
 })
